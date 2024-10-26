@@ -52,7 +52,6 @@ def process_subway_data() -> Tuple[
     return (
         stops_dict,
         coords_dict,
-        {route: sorted(stops) for route, stops in route_stops_dict.items()},
     )
 
 
@@ -84,4 +83,3 @@ if __name__ == "__main__":
     if stop_id in coords_dict:
         lon, lat = coords_dict[stop_id]
         print(f"Coordinates: ({lat}, {lon})")
-        
