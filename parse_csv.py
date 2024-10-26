@@ -18,7 +18,6 @@ def parse_coordinates(lat_str: str, lon_str: str) -> Tuple[float, float]:
 def process_subway_data() -> Tuple[
     Dict[Tuple[str, str], str],  # stops_dict
     Dict[str, Tuple[float, float]],  # coords_dict
-    Dict[str, List[str]],  # route_stops_dict
 ]:
     """
     Process NYC subway stop data from CSV into three dictionaries:
@@ -70,14 +69,6 @@ def get_coords_dict() -> Dict[str, Tuple[float, float]]:
     """
     return process_subway_data()[1]
 
-
-def get_route_stops_dict() -> Dict[str, List[str]]:
-    """
-    Returns just the route stops dictionary mapping route to list of stop names
-    """
-    return process_subway_data()[2]
-
-
 # Example usage:
 if __name__ == "__main__":
     csv_path = "./MTA_Subway_Stations_20241024.csv"
@@ -93,8 +84,4 @@ if __name__ == "__main__":
     if stop_id in coords_dict:
         lon, lat = coords_dict[stop_id]
         print(f"Coordinates: ({lat}, {lon})")
-
-    route_stops_dict = get_route_stops_dict(csv_path)
-    print("\nFirst few stops on the 4 train:")
-    for stop in route_stops_dict["4"][:3]:
-        print(f"- {stop}")
+        
