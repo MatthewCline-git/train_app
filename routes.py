@@ -1,4 +1,4 @@
-{
+LINE_TO_STOPS = {
     "1": [
         "Van Cortlandt Park-242 St",
         "238 St",
