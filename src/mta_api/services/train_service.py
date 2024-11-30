@@ -1,9 +1,9 @@
 import heapq
 from datetime import datetime, timedelta
 
-import pytz 
+import pytz
 import requests
-from google.transit import gtfs_realtime_pb2 # type: ignore[import-untyped]
+from google.transit import gtfs_realtime_pb2  # type: ignore[import-untyped]
 
 from mta_api.data.station_parser import get_stops_dict
 
@@ -87,7 +87,7 @@ def process_gtfs_data(line, gtfs_stop_id) -> dict[str, str] | None:
                 arrivals["north"] if stop_id.endswith("N") else arrivals["south"]
             )
             arrival_info: tuple[timedelta, str] = (-time_diff, formatted_time)
-            heapq.heappush(arrival_list, arrival_info) # type: ignore
+            heapq.heappush(arrival_list, arrival_info)  # type: ignore
             if len(arrival_list) > MAX_ARRIVALS:
                 heapq.heappop(arrival_list)
 
@@ -96,7 +96,7 @@ def process_gtfs_data(line, gtfs_stop_id) -> dict[str, str] | None:
     return {"downtowns": downtowns, "uptowns": uptowns}
 
 
-if __name__ == "__main__": 
+if __name__ == "__main__":
     stop = "Times Sq-42 St"
     line = "1"
     gtfs_stop_id = get_stops_dict().get((stop, line))

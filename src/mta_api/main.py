@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 from mta_api.data.station_parser import get_stops_dict, process_subway_data
 from mta_api.services.train_service import process_gtfs_data, URL_DICT

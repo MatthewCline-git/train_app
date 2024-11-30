@@ -72,7 +72,6 @@ def get_coords_dict() -> dict[str, tuple[float, float]]:
 
 # Example usage:
 if __name__ == "__main__":
-    
     # Use individual functions based on which dictionary you need
     stops_dict = get_stops_dict()
     print("\nLooking up a specific stop-route combination:")
