@@ -4,7 +4,7 @@ from functools import cache
 
 from pathlib import Path
 
-CSV_PATH = Path(__file__).parents / "MTA_Subway_Stations_20241024.csv"
+CSV_PATH = Path(__file__).parent / "MTA_Subway_Stations_20241024.csv"
 
 def parse_routes(routes_str: str) -> tuple[str, ...]:
     """Convert space-separated route string into sorted tuple of routes"""
