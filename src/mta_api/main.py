@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
 from typing import Dict, List
 
@@ -33,6 +34,12 @@ class RouteStopsResponse(BaseModel):
 
 class ErrorResponse(BaseModel):
     detail: str
+
+
+
+@app.get("/")
+async def root():
+    return RedirectResponse(url="/docs")
 
 
 @app.get("/api/v1/routes", response_model=Dict[str, List[str]])
