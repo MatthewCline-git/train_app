@@ -1,24 +1,25 @@
 import csv
 from collections import defaultdict
 from functools import cache
-from typing import Dict, List, Tuple
 
 
-def parse_routes(routes_str: str) -> Tuple[str, ...]:
+def parse_routes(routes_str: str) -> tuple[str, ...]:
     """Convert space-separated route string into sorted tuple of routes"""
     return tuple(sorted(routes_str.strip().split()))
 
 
-def parse_coordinates(lat_str: str, lon_str: str) -> Tuple[float, float]:
+def parse_coordinates(lat_str: str, lon_str: str) -> tuple[float, float]:
     """Convert latitude and longitude strings to tuple of floats"""
     return (float(lon_str), float(lat_str))  # Note: returns as (lon, lat) pair
 
 
 @cache
-def process_subway_data() -> Tuple[
-    Dict[Tuple[str, str], str],  # stops_dict
-    Dict[str, Tuple[float, float]],  # coords_dict
-]:
+def process_subway_data() -> (
+    tuple[
+        dict[tuple[str, str], str],  # stops_dict
+        dict[str, tuple[float, float]],  # coords_dict
+    ]
+):
     """
     Process NYC subway stop data from CSV into three dictionaries:
     1. stops_dict - Key: Tuple of (Stop Name, single route), Value: GTFS Stop ID
@@ -55,30 +56,30 @@ def process_subway_data() -> Tuple[
     )
 
 
-def get_stops_dict() -> Dict[Tuple[str, str], str]:
+def get_stops_dict() -> dict[tuple[str, str], str]:
     """
     Returns just the stops dictionary mapping (stop_name, route) to GTFS Stop ID
     """
     return process_subway_data()[0]
 
 
-def get_coords_dict() -> Dict[str, Tuple[float, float]]:
+def get_coords_dict() -> dict[str, tuple[float, float]]:
     """
     Returns just the coordinates dictionary mapping GTFS Stop ID to (longitude, latitude)
     """
     return process_subway_data()[1]
 
+
 # Example usage:
 if __name__ == "__main__":
-    csv_path = "./MTA_Subway_Stations_20241024.csv"
-
+    
     # Use individual functions based on which dictionary you need
-    stops_dict = get_stops_dict(csv_path)
+    stops_dict = get_stops_dict()
     print("\nLooking up a specific stop-route combination:")
     stop_id = stops_dict[("Grand Central-42 St", "4")]
     print(f"Stop ID for Grand Central on 4 train: {stop_id}")
 
-    coords_dict = get_coords_dict(csv_path)
+    coords_dict = get_coords_dict()
     print("\nLooking up coordinates for a stop ID:")
     if stop_id in coords_dict:
         lon, lat = coords_dict[stop_id]

@@ -1,11 +1,11 @@
 import heapq
 from datetime import datetime, timedelta
 
-import pytz
+import pytz 
 import requests
-from google.transit import gtfs_realtime_pb2
+from google.transit import gtfs_realtime_pb2 # type: ignore[import-untyped]
 
-from parse_csv import get_stops_dict
+from mta_api.data.station_parser import get_stops_dict
 
 NYC_TZ = pytz.timezone("America/New_York")
 
@@ -50,16 +50,16 @@ def fetch_and_parse_gtfs(line: str):
     return feed
 
 
-def format_arrival_time(time):
+def format_arrival_time(time) -> str:
     return time.astimezone(NYC_TZ).strftime("%I:%M %p")
 
 
-def process_gtfs_data(line, gtfs_stop_id):
-    arrivals = {"north": [], "south": []}
+def process_gtfs_data(line, gtfs_stop_id) -> dict[str, str] | None:
+    arrivals: dict[str, list[tuple[float, str]]] = {"north": [], "south": []}
     feed = fetch_and_parse_gtfs(line)
     if not feed.entity:
         print("no entities)")
-        return
+        return None
     now = datetime.now()
     for entity in feed.entity:
         if not entity.HasField("trip_update"):
@@ -83,10 +83,11 @@ def process_gtfs_data(line, gtfs_stop_id):
                 continue
             time_diff = abs(now - arrival_time)
             formatted_time = format_arrival_time(arrival_time)
-            arrival_list = (
+            arrival_list: list[tuple[float, str]] = (
                 arrivals["north"] if stop_id.endswith("N") else arrivals["south"]
             )
-            heapq.heappush(arrival_list, (-time_diff, formatted_time))
+            arrival_info: tuple[timedelta, str] = (-time_diff, formatted_time)
+            heapq.heappush(arrival_list, arrival_info) # type: ignore
             if len(arrival_list) > MAX_ARRIVALS:
                 heapq.heappop(arrival_list)
 
@@ -95,7 +96,7 @@ def process_gtfs_data(line, gtfs_stop_id):
     return {"downtowns": downtowns, "uptowns": uptowns}
 
 
-if __name__ == "__main__":
+if __name__ == "__main__": 
     stop = "Times Sq-42 St"
     line = "1"
     gtfs_stop_id = get_stops_dict().get((stop, line))

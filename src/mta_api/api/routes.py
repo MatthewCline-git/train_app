@@ -790,3 +790,130 @@ LINE_TO_STOPS = {
         "Broad St",
     ],
 }
+
+from difflib import get_close_matches
+import re
+
+
+class SubwayStationMatcher:
+    def __init__(self, station_names):
+        """
+        Initialize the matcher with a list of official station names.
+
+        Args:
+            station_names (list): List of official subway station names
+        """
+        self.official_names = station_names
+        # Create normalized versions of names for matching
+        self.normalized_names = {
+            self._normalize_name(name): name for name in station_names
+        }
+
+    def _normalize_name(self, name):
+        """
+        Normalize station names for better matching:
+        - Convert to lowercase
+        - Replace common abbreviations
+        - Remove special characters
+        - Standardize spaces
+        """
+        name = name.lower()
+
+        # Common substitutions
+        substitutions = {
+            "st": "street",
+            "sq": "square",
+            "pk": "park",
+            "pkwy": "parkway",
+            "rd": "road",
+            "av": "avenue",
+            "plaza": "plz",
+            "junction": "jct",
+            "heights": "hts",
+        }
+
+        # Split into words
+        words = name.split()
+        normalized_words = []
+
+        for word in words:
+            # Replace abbreviations
+            word = substitutions.get(word, word)
+            # Remove special characters but keep numbers
+            word = re.sub(r"[^\w\s]", "", word)
+            normalized_words.append(word)
+
+        return " ".join(normalized_words)
+
+    def find_matches(self, query, n=3, cutoff=0.0):
+        """
+        Find the best matching station names for a given query.
+
+        Args:
+            query (str): The user's search query
+            n (int): Maximum number of matches to return
+            cutoff (float): Minimum similarity score (0-1) for matches
+
+        Returns:
+            list: List of tuples (official_name, similarity_score)
+        """
+        normalized_query = self._normalize_name(query)
+
+        # Get close matches among normalized names
+        matches = get_close_matches(
+            normalized_query, list(self.normalized_names.keys()), n=n, cutoff=cutoff
+        )
+
+        # Convert back to official names and include similarity scores
+        results = []
+        for match in matches:
+            official_name = self.normalized_names[match]
+            # Calculate similarity score (0-1)
+            score = self._calculate_similarity(normalized_query, match)
+            results.append((official_name, score))
+
+        return sorted(results, key=lambda x: x[1], reverse=True)
+
+    def _calculate_similarity(self, query, match):
+        """
+        Calculate a similarity score between query and match.
+        Uses a combination of exact substring matching and sequence similarity.
+
+        Returns float between 0 and 1.
+        """
+        # Check if query is a substring of match
+        if query in match:
+            return 1.0
+
+        # Calculate sequence similarity
+        shorter = min(query, match, key=len)
+        longer = max(query, match, key=len)
+
+        if len(longer) == 0:
+            return 0.0
+
+        # Count matching characters
+        matches = sum(a == b for a, b in zip(shorter, longer))
+        return matches / len(longer)
+
+
+# Example usage
+if __name__ == "__main__":
+    # Sample station names
+    stations = [
+        "Times Sq-42 St",
+        "28 St",
+        "Penn Station",
+        "Grand Central-42 St",
+        "Union Sq-14 St",
+        "Herald Sq-34 St",
+        "Atlantic Ave-Barclays Ctr",
+    ]
+
+    matcher = SubwayStationMatcher(stations)
+
+    query = input()
+    print(f"\nQuery: {query}")
+    matches = matcher.find_matches(query)
+    for station, score in matches:
+        print(f"Match: {station} (score: {score:.2f})")
