@@ -2,6 +2,10 @@ import csv
 from collections import defaultdict
 from functools import cache
 
+from pathlib import Path
+
+project_root = Path(__file__).parents[3]
+
 
 def parse_routes(routes_str: str) -> tuple[str, ...]:
     """Convert space-separated route string into sorted tuple of routes"""
@@ -29,7 +33,8 @@ def process_subway_data() -> (
     stops_dict = {}
     coords_dict = {}
     route_stops_dict = defaultdict(set)  # Using set to avoid duplicates
-    csv_path = "./MTA_Subway_Stations_20241024.csv"
+    csv_path = project_root / "data" / "MTA_Subway_Stations_20241024.csv"
+
     with open(csv_path, "r", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         for row in reader:
