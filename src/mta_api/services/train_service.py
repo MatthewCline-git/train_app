@@ -6,6 +6,9 @@ import requests
 from google.transit import gtfs_realtime_pb2  # type: ignore[import-untyped]
 
 from mta_api.data.station_parser import get_stops_dict
+from mta_api.utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 NYC_TZ = pytz.timezone("America/New_York")
 
@@ -39,15 +42,21 @@ URL_DICT = {
 
 def fetch_and_parse_gtfs(line: str):
     url = URL_DICT[line]
+    logger.debug(f"Fetching GTFS data for line {line} from {url}")
+
     response = requests.get(url)
     if response.status_code != 200:
-        print(f"Failed to retrieve data: {response.status_code}")
+        logger.error(f"Failed to retrieve data: {response.status_code}")
         return None
 
     feed = gtfs_realtime_pb2.FeedMessage()
-    feed.ParseFromString(response.content)
-
-    return feed
+    try:
+        feed.ParseFromString(response.content)
+        logger.debug(f"Successfully parsed GTFS feed for line {line}")
+        return feed
+    except Exception as e:
+        logger.error(f"Error parsing GTFS feed: {str(e)}", exc_info=True)
+        return None
 
 
 def format_arrival_time(time) -> str:
@@ -55,20 +64,32 @@ def format_arrival_time(time) -> str:
 
 
 def process_gtfs_data(line, gtfs_stop_id) -> dict[str, str] | None:
+    logger.info(f"Processing GTFS data for line {line}, stop {gtfs_stop_id}")
+
     arrivals: dict[str, list[tuple[float, str]]] = {"north": [], "south": []}
     feed = fetch_and_parse_gtfs(line)
-    if not feed.entity:
-        print("no entities)")
+
+    if not feed:
+        logger.warning("No feed received from fetch_and_parse_gtfs")
         return None
+
+    if not feed.entity:
+        logger.warning("Feed contains no entities")
+        return None
+
     now = datetime.now()
+    processed_count = 0
+    skipped_count = 0
+
     for entity in feed.entity:
         if not entity.HasField("trip_update"):
             continue
+
         trip = entity.trip_update
         for stop_time_update in trip.stop_time_update:
             stop_id: str = stop_time_update.stop_id
-            # if stop_id.startswith(gtfs_stop_id):
-            #     print(stop_time_update)
+
+            # Skip updates that don't meet our criteria
             if (
                 not stop_time_update.HasField("arrival")
                 or not stop_id.startswith(gtfs_stop_id)
@@ -80,27 +101,44 @@ def process_gtfs_data(line, gtfs_stop_id) -> dict[str, str] | None:
                 < now
                 or arrival_time - now > timedelta(minutes=30)
             ):
+                skipped_count += 1
                 continue
+
             time_diff = abs(now - arrival_time)
             formatted_time = format_arrival_time(arrival_time)
-            arrival_list: list[tuple[float, str]] = (
-                arrivals["north"] if stop_id.endswith("N") else arrivals["south"]
-            )
+            direction = "north" if stop_id.endswith("N") else "south"
+
+            arrival_list = arrivals[direction]
             arrival_info: tuple[timedelta, str] = (-time_diff, formatted_time)
             heapq.heappush(arrival_list, arrival_info)  # type: ignore
+
             if len(arrival_list) > MAX_ARRIVALS:
                 heapq.heappop(arrival_list)
 
+            processed_count += 1
+
+    logger.debug(
+        f"Processed {processed_count} arrivals, skipped {skipped_count} updates"
+    )
+
+    # Format the final results
     downtowns = ", ".join(time for _, time in sorted(arrivals["south"], reverse=True))
     uptowns = ", ".join(time for _, time in sorted(arrivals["north"], reverse=True))
-    return {"downtowns": downtowns, "uptowns": uptowns}
+
+    result = {"downtowns": downtowns, "uptowns": uptowns}
+    logger.info(f"Final arrival times for stop {gtfs_stop_id}: {result}")
+
+    return result
 
 
 if __name__ == "__main__":
     stop = "Times Sq-42 St"
     line = "1"
+    logger.info(f"Testing arrival times for {stop} on line {line}")
+
     gtfs_stop_id = get_stops_dict().get((stop, line))
-    x = process_gtfs_data(line, gtfs_stop_id)
-    print(x)
-    # feed = fetch_and_parse_gtfs()
-    # process_gtfs_data(feed, "633")
+    if not gtfs_stop_id:
+        logger.error(f"Could not find GTFS stop ID for {stop} on line {line}")
+    else:
+        result = process_gtfs_data(line, gtfs_stop_id)
+        logger.info(f"Test result: {result}")
