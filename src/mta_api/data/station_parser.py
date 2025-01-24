@@ -6,6 +6,7 @@ from pathlib import Path
 
 CSV_PATH = Path(__file__).parent / "MTA_Subway_Stations_20241024.csv"
 
+
 def parse_routes(routes_str: str) -> tuple[str, ...]:
     """Convert space-separated route string into sorted tuple of routes"""
     return tuple(sorted(routes_str.strip().split()))
@@ -17,12 +18,10 @@ def parse_coordinates(lat_str: str, lon_str: str) -> tuple[float, float]:
 
 
 @cache
-def process_subway_data() -> (
-    tuple[
-        dict[tuple[str, str], str],  # stops_dict
-        dict[str, tuple[float, float]],  # coords_dict
-    ]
-):
+def process_subway_data() -> tuple[
+    dict[tuple[str, str], str],  # stops_dict
+    dict[str, tuple[float, float]],  # coords_dict
+]:
     """
     Process NYC subway stop data from CSV into three dictionaries:
     1. stops_dict - Key: Tuple of (Stop Name, single route), Value: GTFS Stop ID
