@@ -1,905 +1,114 @@
-LINE_TO_STOPS = {
-    "1": [
-        "Van Cortlandt Park-242 St",
-        "238 St",
-        "231 St",
-        "225 St",
-        "215 St",
-        "207 St",
-        "Dyckman St",
-        "191 St",
-        "181 St",
-        "168 St",
-        "157 St",
-        "145 St",
-        "137 St-City College",
-        "125 St",
-        "116 St-Columbia University",
-        "110 St-Cathedral Pkwy",
-        "103 St",
-        "96 St",
-        "86 St",
-        "79 St",
-        "72 St",
-        "66 St-Lincoln Center",
-        "59 St-Columbus Circle",
-        "50 St",
-        "Times Sq-42 St",
-        "34 St-Penn Station",
-        "28 St",
-        "23 St",
-        "18 St",
-        "14 St",
-        "Christopher St-Sheridan Sq",
-        "Houston St",
-        "Canal St",
-        "Franklin St",
-        "Chambers St",
-        "WTC Cortlandt",
-        "Rector St",
-        "South Ferry",
-    ],
-    "2": [
-        "Wakefield-241 St",
-        "Nereid Ave",
-        "233 St",
-        "225 St",
-        "219 St",
-        "Gun Hill Rd",
-        "Burke Ave",
-        "Allerton Ave",
-        "Pelham Pkwy",
-        "Bronx Park East",
-        "East 180 St",
-        "West Farms Sq-E Tremont Ave",
-        "174 St",
-        "Freeman St",
-        "Simpson St",
-        "Intervale Ave",
-        "Prospect Ave",
-        "Jackson Ave",
-        "3 Ave-149 St",
-        "149 St-Grand Concourse",
-        "135 St",
-        "125 St",
-        "116 St",
-        "Central Park North-110 St",
-        "96 St",
-        "72 St",
-        "Times Sq-42 St",
-        "34 St-Penn Station",
-        "14 St",
-        "Chambers St",
-        "Park Place",
-        "Fulton St",
-        "Wall St",
-        "Clark St",
-        "Borough Hall",
-        "Hoyt St",
-        "Nevins St",
-        "Atlantic Ave-Barclays Ctr",
-        "Bergen St",
-        "Grand Army Plaza",
-        "Eastern Pkwy-Brooklyn Museum",
-        "Franklin Ave",
-        "President St",
-        "Sterling St",
-        "Winthrop St",
-        "Church Ave",
-        "Beverly Rd",
-        "Newkirk Ave",
-        "Flatbush Ave-Brooklyn College",
-    ],
-    "3": [
-        "Harlem-148 St",
-        "145 St",
-        "135 St",
-        "125 St",
-        "116 St",
-        "Central Park North-110 St",
-        "96 St",
-        "72 St",
-        "Times Sq-42 St",
-        "34 St-Penn Station",
-        "14 St",
-        "Chambers St",
-        "Park Place",
-        "Fulton St",
-        "Wall St",
-        "Clark St",
-        "Borough Hall",
-        "Hoyt St",
-        "Nevins St",
-        "Atlantic Ave-Barclays Ctr",
-        "Bergen St",
-        "Grand Army Plaza",
-        "Eastern Pkwy-Brooklyn Museum",
-        "Franklin Ave",
-        "Nostrand Ave",
-        "Kingston Ave",
-        "Crown Heights-Utica Ave",
-        "Sutter Ave-Rutland Rd",
-        "Saratoga Ave",
-        "Rockaway Ave",
-        "Junius St",
-        "Pennsylvania Ave",
-        "Van Siclen Ave",
-        "New Lots Ave",
-    ],
-    "4": [
-        "Crown Heights-Utica Ave",
-        "Franklin Ave",
-        "Nostrand Ave",
-        "Kingston Ave",
-        "Sterling St",
-        "Grand Army Plaza",
-        "Bergen St",
-        "Atlantic Ave-Barclays Ctr",
-        "Nevins St",
-        "Borough Hall",
-        "Wall St",
-        "Bowling Green",
-        "Brooklyn Bridge-City Hall",
-        "Fulton St",
-        "Wall St",
-        "14 St-Union Sq",
-        "Grand Central-42 St",
-        "51 St",
-        "59 St",
-        "86 St",
-        "125 St",
-        "138 St-Grand Concourse",
-        "149 St-Grand Concourse",
-        "161 St-Yankee Stadium",
-        "167 St",
-        "170 St",
-        "Mt Eden Ave",
-        "176 St",
-        "Burnside Ave",
-        "183 St",
-        "Fordham Rd",
-        "Kingsbridge Rd",
-        "Bedford Park Blvd-Lehman College",
-        "Mosholu Pkwy",
-        "Woodlawn",
-    ],
-    "5": [
-        "Eastchester-Dyre Ave",
-        "Baychester Ave",
-        "Gun Hill Rd",
-        "Pelham Pkwy",
-        "Morris Park",
-        "E 180 St",
-        "West Farms Sq-E Tremont Ave",
-        "174 St",
-        "Freeman St",
-        "Simpson St",
-        "Intervale Ave",
-        "Prospect Ave",
-        "Jackson Ave",
-        "3 Ave-149 St",
-        "149 St-Grand Concourse",
-        "138 St-Grand Concourse",
-        "125 St",
-        "86 St",
-        "59 St",
-        "Grand Central-42 St",
-        "14 St-Union Sq",
-        "Brooklyn Bridge-City Hall",
-        "Fulton St",
-        "Wall St",
-        "Bowling Green",
-        "Borough Hall",
-        "Nevins St",
-        "Atlantic Ave-Barclays Ctr",
-        "Franklin Ave",
-        "President St",
-        "Sterling St",
-        "Winthrop St",
-        "Church Ave",
-        "Beverly Rd",
-        "Newkirk Ave",
-        "Flatbush Ave-Brooklyn College",
-    ],
-    "6": [
-        "Brooklyn Bridge-City Hall",
-        "Canal St",
-        "Spring St",
-        "Bleecker St",
-        "Astor Pl",
-        "14 St-Union Sq",
-        "23 St",
-        "28 St",
-        "33 St",
-        "Grand Central-42 St",
-        "51 St",
-        "59 St",
-        "68 St-Hunter College",
-        "77 St",
-        "86 St",
-        "96 St",
-        "103 St",
-        "110 St",
-        "116 St",
-        "125 St",
-        "138 St-3 Ave",
-        "Brook Ave",
-        "Cypress Ave",
-        "E 143 St-St Mary's St",
-        "E 149 St",
-        "Longwood Ave",
-        "Hunts Point Ave",
-        "Whitlock Ave",
-        "Elder Ave",
-        "Morrison Ave-Soundview",
-        "St Lawrence Ave",
-        "Parkchester",
-        "Castle Hill Ave",
-        "Zerega Ave",
-        "Westchester Sq-E Tremont Ave",
-        "Middletown Rd",
-        "Buhre Ave",
-        "Pelham Bay Park",
-    ],
-    "7": [
-        "34 St-Hudson Yards",
-        "Times Sq-42 St",
-        "5 Ave",
-        "Grand Central-42 St",
-        "Vernon Blvd-Jackson Ave",
-        "Hunters Point Ave",
-        "Court Sq",
-        "Queensboro Plaza",
-        "33 St-Rawson St",
-        "40 St-Lowery St",
-        "46 St-Bliss St",
-        "52 St",
-        "61 St-Woodside",
-        "69 St",
-        "74 St-Broadway",
-        "82 St-Jackson Hts",
-        "90 St-Elmhurst Ave",
-        "Junction Blvd",
-        "103 St-Corona Plaza",
-        "111 St",
-        "Mets-Willets Point",
-        "Flushing-Main St",
-    ],
-    "A": [
-        "Inwood-207 St",
-        "Dyckman St",
-        "190 St",
-        "181 St",
-        "175 St",
-        "168 St",
-        "145 St",
-        "125 St",
-        "59 St-Columbus Circle",
-        "42 St-Port Authority Bus Terminal",
-        "34 St-Penn Station",
-        "23 St",
-        "14 St",
-        "W 4 St-Washington Sq",
-        "Canal St",
-        "Chambers St",
-        "Fulton St",
-        "High St",
-        "Jay St-MetroTech",
-        "Hoyt-Schermerhorn Sts",
-        "Lafayette Ave",
-        "Clinton-Washington Aves",
-        "Franklin Ave",
-        "Nostrand Ave",
-        "Kingston-Throop Aves",
-        "Utica Ave",
-        "Broadway Junction",
-        "Liberty Ave",
-        "Van Siclen Ave",
-        "Shepherd Ave",
-        "Euclid Ave",
-        "Grant Ave",
-        "80 St",
-        "88 St",
-        "Rockaway Blvd",
-        "104 St",
-        "111 St",
-        "Ozone Park-Lefferts Blvd",
-    ],
-    "B": [
-        "Brighton Beach",
-        "Sheepshead Bay",
-        "Neck Rd",
-        "Avenue U",
-        "Kings Hwy",
-        "Avenue M",
-        "Avenue J",
-        "Avenue H",
-        "Newkirk Plaza",
-        "Cortelyou Rd",
-        "Church Ave",
-        "Prospect Park",
-        "7 Ave",
-        "Atlantic Ave-Barclays Ctr",
-        "DeKalb Ave",
-        "Grand St",
-        "Broadway-Lafayette St",
-        "W 4 St-Washington Sq",
-        "34 St-Herald Sq",
-        "42 St-Bryant Pk",
-        "47-50 Sts-Rockefeller Ctr",
-        "7 Ave",
-        "59 St-Columbus Circle",
-        "72 St",
-        "81 St-Museum of Natural History",
-        "86 St",
-        "96 St",
-        "103 St",
-        "110 St",
-        "116 St",
-        "125 St",
-        "135 St",
-        "145 St",
-        "155 St",
-        "161 St-Yankee Stadium",
-        "167 St",
-        "170 St",
-        "174-175 Sts",
-        "182-183 Sts",
-        "Fordham Rd",
-        "Kingsbridge Rd",
-        "Bedford Park Blvd",
-        "Bedford Park Blvd-Lehman College",
-    ],
-    "C": [
-        "168 St",
-        "163 St-Amsterdam Ave",
-        "155 St",
-        "145 St",
-        "135 St",
-        "125 St",
-        "116 St",
-        "110 St",
-        "103 St",
-        "96 St",
-        "86 St",
-        "81 St-Museum of Natural History",
-        "72 St",
-        "59 St-Columbus Circle",
-        "50 St",
-        "42 St-Port Authority Bus Terminal",
-        "34 St-Penn Station",
-        "23 St",
-        "14 St",
-        "W 4 St-Washington Sq",
-        "Canal St",
-        "Chambers St",
-        "Fulton St",
-        "High St",
-        "Jay St-MetroTech",
-        "Hoyt-Schermerhorn Sts",
-        "Lafayette Ave",
-        "Clinton-Washington Aves",
-        "Franklin Ave",
-        "Nostrand Ave",
-        "Kingston-Throop Aves",
-        "Utica Ave",
-        "Ralph Ave",
-        "Rockaway Ave",
-        "Broadway Junction",
-        "Liberty Ave",
-        "Van Siclen Ave",
-        "Shepherd Ave",
-        "Euclid Ave",
-    ],
-    "D": [
-        "Coney Island-Stillwell Ave",
-        "Bay 50th St",
-        "25 Ave",
-        "Bay Pkwy",
-        "62 St",
-        "9 Ave",
-        "Fort Hamilton Pkwy",
-        "50 St",
-        "55 St",
-        "71 St",
-        "79 St",
-        "18 Ave",
-        "20 Ave",
-        "Bay Pkwy",
-        "25 Ave",
-        "Bay 50th St",
-        "Atlantic Ave-Barclays Ctr",
-        "DeKalb Ave",
-        "Grand St",
-        "Broadway-Lafayette St",
-        "W 4 St-Washington Sq",
-        "34 St-Herald Sq",
-        "42 St-Bryant Pk",
-        "47-50 Sts-Rockefeller Ctr",
-        "7 Ave",
-        "59 St-Columbus Circle",
-        "125 St",
-        "145 St",
-        "155 St",
-        "161 St-Yankee Stadium",
-        "167 St",
-        "170 St",
-        "174-175 Sts",
-        "182-183 Sts",
-        "Fordham Rd",
-        "Kingsbridge Rd",
-        "Bedford Park Blvd",
-        "Norwood-205 St",
-    ],
-    "E": [
-        "Jamaica Center-Parsons/Archer",
-        "Sutphin Blvd-Archer Ave-JFK Airport",
-        "Jamaica-Van Wyck",
-        "Briarwood",
-        "Kew Gardens-Union Tpke",
-        "75 Ave",
-        "Forest Hills-71 Ave",
-        "67 Ave",
-        "63 Dr-Rego Park",
-        "Woodhaven Blvd",
-        "Grand Ave-Newtown",
-        "Elmhurst Ave",
-        "Jackson Hts-Roosevelt Ave",
-        "65 St",
-        "Northern Blvd",
-        "46 St",
-        "Steinway St",
-        "36 St",
-        "Queens Plaza",
-        "Court Sq",
-        "23 St-Ely Ave",
-        "Long Island City-Court Sq",
-        "Lexington Ave/53 St",
-        "5 Ave/53 St",
-        "7 Ave",
-        "50 St",
-        "42 St-Port Authority Bus Terminal",
-        "34 St-Penn Station",
-        "23 St",
-        "14 St",
-        "W 4 St-Washington Sq",
-        "Canal St",
-        "Spring St",
-        "World Trade Center",
-    ],
-    "F": [
-        "Jamaica-179 St",
-        "169 St",
-        "Parsons Blvd",
-        "Sutphin Blvd",
-        "Briarwood",
-        "Kew Gardens-Union Tpke",
-        "75 Ave",
-        "Forest Hills-71 Ave",
-        "67 Ave",
-        "63 Dr-Rego Park",
-        "Woodhaven Blvd",
-        "Grand Ave-Newtown",
-        "Elmhurst Ave",
-        "Jackson Hts-Roosevelt Ave",
-        "21 St-Queensbridge",
-        "Roosevelt Island",
-        "Lexington Ave/63 St",
-        "57 St",
-        "47-50 Sts-Rockefeller Ctr",
-        "42 St-Bryant Pk",
-        "34 St-Herald Sq",
-        "23 St",
-        "14 St",
-        "W 4 St-Washington Sq",
-        "Broadway-Lafayette St",
-        "2 Ave",
-        "Delancey St",
-        "East Broadway",
-        "York St",
-        "Jay St-MetroTech",
-        "Bergen St",
-        "Carroll St",
-        "Smith-9 Sts",
-        "4 Ave-9 St",
-        "7 Ave",
-        "15 St-Prospect Park",
-        "Fort Hamilton Pkwy",
-        "Church Ave",
-        "Ditmas Ave",
-        "18 Ave",
-        "Avenue I",
-        "Bay Pkwy",
-        "Avenue N",
-        "Avenue P",
-        "Kings Hwy",
-        "Avenue U",
-        "Avenue X",
-        "Neptune Ave",
-        "West 8 St-NY Aquarium",
-        "Coney Island-Stillwell Ave",
-    ],
-    "G": [
-        "Court Sq",
-        "21 St",
-        "Greenpoint Ave",
-        "Nassau Ave",
-        "Metropolitan Ave",
-        "Broadway",
-        "Flushing Ave",
-        "Myrtle-Willoughby Aves",
-        "Bedford-Nostrand Aves",
-        "Classon Ave",
-        "Clinton-Washington Aves",
-        "Fulton St",
-        "Hoyt-Schermerhorn Sts",
-        "Bergen St",
-        "Carroll St",
-        "Smith-9 Sts",
-        "4 Ave-9 St",
-        "7 Ave",
-        "15 St-Prospect Park",
-        "Fort Hamilton Pkwy",
-        "Church Ave",
-    ],
-    "J": [
-        "Jamaica Center-Parsons/Archer",
-        "Sutphin Blvd-Archer Ave-JFK Airport",
-        "121 St",
-        "111 St",
-        "104 St",
-        "Woodhaven Blvd",
-        "85 St-Forest Pkwy",
-        "75 St",
-        "Cypress Hills",
-        "Crescent St",
-        "Norwood Ave",
-        "Cleveland St",
-        "Van Siclen Ave",
-        "Alabama Ave",
-        "Broadway Junction",
-        "Chauncey St",
-        "Halsey St",
-        "Gates Ave",
-        "Kosciuszko St",
-        "Myrtle Ave",
-        "Flushing Ave",
-        "Lorimer St",
-        "Hewes St",
-        "Marcy Ave",
-        "Essex St",
-        "Bowery",
-        "Canal St",
-        "Chambers St",
-        "Fulton St",
-        "Broad St",
-    ],
-    "L": [
-        "8 Ave",
-        "6 Ave",
-        "14 St-Union Sq",
-        "3 Ave",
-        "1 Ave",
-        "Bedford Ave",
-        "Lorimer St",
-        "Graham Ave",
-        "Grand St",
-        "Montrose Ave",
-        "Morgan Ave",
-        "Jefferson St",
-        "DeKalb Ave",
-        "Myrtle-Wyckoff Aves",
-        "Halsey St",
-        "Wilson Ave",
-        "Bushwick Ave-Aberdeen St",
-        "Broadway Junction",
-        "Atlantic Ave",
-        "Sutter Ave",
-        "Livonia Ave",
-        "New Lots Ave",
-        "East 105 St",
-        "Canarsie-Rockaway Pkwy",
-    ],
-    "M": [
-        "Forest Hills-71 Ave",
-        "67 Ave",
-        "63 Dr-Rego Park",
-        "Woodhaven Blvd",
-        "Grand Ave-Newtown",
-        "Elmhurst Ave",
-        "Jackson Hts-Roosevelt Ave",
-        "65 St",
-        "Northern Blvd",
-        "46 St",
-        "Steinway St",
-        "36 St",
-        "Queens Plaza",
-        "Court Sq-23 St",
-        "Lexington Ave/53 St",
-        "5 Ave/53 St",
-        "47-50 Sts-Rockefeller Ctr",
-        "42 St-Bryant Pk",
-        "34 St-Herald Sq",
-        "23 St",
-        "14 St",
-        "W 4 St-Washington Sq",
-        "Broadway-Lafayette St",
-        "Essex St",
-        "Marcy Ave",
-        "Hewes St",
-        "Lorimer St",
-        "Flushing Ave",
-        "Myrtle Ave",
-        "Central Ave",
-        "Knickerbocker Ave",
-        "Forest Ave",
-        "Fresh Pond Rd",
-        "Middle Village-Metropolitan Ave",
-    ],
-    "N": [
-        "Coney Island-Stillwell Ave",
-        "86 St",
-        "Ave U",
-        "Kings Hwy",
-        "Bay Pkwy",
-        "20 Ave",
-        "18 Ave",
-        "New Utrecht Ave",
-        "Fort Hamilton Pkwy",
-        "8 Ave",
-        "59 St",
-        "36 St",
-        "Pacific St",
-        "Atlantic Ave-Barclays Ctr",
-        "Canal St",
-        "14 St-Union Sq",
-        "34 St-Herald Sq",
-        "Times Sq-42 St",
-        "49 St",
-        "57 St-7 Ave",
-        "5 Ave/59 St",
-        "Lexington Ave/59 St",
-        "Queensboro Plaza",
-        "39 Ave",
-        "36 Ave",
-        "Broadway",
-        "30 Ave",
-        "Astoria Blvd",
-        "Ditmars Blvd",
-    ],
-    "Q": [
-        "Coney Island-Stillwell Ave",
-        "Ocean Parkway",
-        "Brighton Beach",
-        "Sheepshead Bay",
-        "Neck Rd",
-        "Avenue U",
-        "Kings Hwy",
-        "Avenue M",
-        "Avenue J",
-        "Avenue H",
-        "Newkirk Plaza",
-        "Cortelyou Rd",
-        "Church Ave",
-        "Prospect Park",
-        "7 Ave",
-        "Atlantic Ave-Barclays Ctr",
-        "DeKalb Ave",
-        "Canal St",
-        "14 St-Union Sq",
-        "34 St-Herald Sq",
-        "Times Sq-42 St",
-        "57 St-7 Ave",
-        "Lexington Ave/63 St",
-        "72 St",
-        "86 St",
-        "96 St",
-    ],
-    "R": [
-        "Forest Hills-71 Ave",
-        "67 Ave",
-        "63 Dr-Rego Park",
-        "Woodhaven Blvd",
-        "Grand Ave-Newtown",
-        "Elmhurst Ave",
-        "Jackson Hts-Roosevelt Ave",
-        "65 St",
-        "Northern Blvd",
-        "46 St",
-        "Steinway St",
-        "36 St",
-        "Queens Plaza",
-        "Lexington Ave/59 St",
-        "5 Ave/59 St",
-        "57 St-7 Ave",
-        "49 St",
-        "Times Sq-42 St",
-        "34 St-Herald Sq",
-        "28 St",
-        "23 St",
-        "14 St-Union Sq",
-        "8 St-NYU",
-        "Prince St",
-        "Canal St",
-        "City Hall",
-        "Cortlandt St",
-        "Rector St",
-        "Whitehall St-South Ferry",
-        "Court St",
-        "Jay St-MetroTech",
-        "DeKalb Ave",
-        "Atlantic Ave-Barclays Ctr",
-        "Union St",
-        "4 Ave-9 St",
-        "Prospect Ave",
-        "25 St",
-        "36 St",
-        "45 St",
-        "53 St",
-        "59 St",
-        "Bay Ridge Ave",
-        "77 St",
-        "86 St",
-        "Bay Ridge-95 St",
-    ],
-    "W": [
-        "Ditmars Blvd",
-        "Astoria Blvd",
-        "30 Ave",
-        "Broadway",
-        "36 Ave",
-        "39 Ave",
-        "Queensboro Plaza",
-        "Lexington Ave/59 St",
-        "5 Ave/59 St",
-        "57 St-7 Ave",
-        "49 St",
-        "Times Sq-42 St",
-        "34 St-Herald Sq",
-        "28 St",
-        "23 St",
-        "14 St-Union Sq",
-        "8 St-NYU",
-        "Prince St",
-        "Canal St",
-        "City Hall",
-        "Cortlandt St",
-        "Rector St",
-        "Whitehall St-South Ferry",
-    ],
-    "Z": [
-        "Jamaica Center-Parsons/Archer",
-        "Sutphin Blvd-Archer Ave-JFK Airport",
-        "121 St",
-        "104 St",
-        "Woodhaven Blvd",
-        "75 St",
-        "Cypress Hills",
-        "Crescent St",
-        "Alabama Ave",
-        "Broadway Junction",
-        "Chauncey St",
-        "Gates Ave",
-        "Myrtle Ave",
-        "Marcy Ave",
-        "Essex St",
-        "Bowery",
-        "Canal St",
-        "Chambers St",
-        "Fulton St",
-        "Broad St",
-    ],
-}
-
 from difflib import get_close_matches
 import re
+from mta_api.utils.logger import get_logger
+from mta_api.data.subway_lines import LINE_TO_STOPS
+
+logger = get_logger(__name__)
 
 
 class SubwayStationMatcher:
     def __init__(self, station_names):
         """
         Initialize the matcher with a list of official station names.
-
-        Args:
-            station_names (list): List of official subway station names
         """
+        logger.info(
+            f"Initializing SubwayStationMatcher with {len(station_names)} stations"
+        )
         self.official_names = station_names
-        # Create normalized versions of names for matching
         self.normalized_names = {
             self._normalize_name(name): name for name in station_names
         }
+        logger.debug(f"Created {len(self.normalized_names)} normalized station names")
 
     def _normalize_name(self, name):
         """
-        Normalize station names for better matching:
-        - Convert to lowercase
-        - Replace common abbreviations
-        - Remove special characters
-        - Standardize spaces
+        Normalize station names for better matching
         """
-        name = name.lower()
+        try:
+            name = name.lower()
+            substitutions = {
+                "st": "street",
+                "sq": "square",
+                "pk": "park",
+                "pkwy": "parkway",
+                "rd": "road",
+                "av": "avenue",
+                "plaza": "plz",
+                "junction": "jct",
+                "heights": "hts",
+            }
 
-        # Common substitutions
-        substitutions = {
-            "st": "street",
-            "sq": "square",
-            "pk": "park",
-            "pkwy": "parkway",
-            "rd": "road",
-            "av": "avenue",
-            "plaza": "plz",
-            "junction": "jct",
-            "heights": "hts",
-        }
+            words = name.split()
+            normalized_words = []
 
-        # Split into words
-        words = name.split()
-        normalized_words = []
+            for word in words:
+                word = substitutions.get(word, word)
+                word = re.sub(r"[^\w\s]", "", word)
+                normalized_words.append(word)
 
-        for word in words:
-            # Replace abbreviations
-            word = substitutions.get(word, word)
-            # Remove special characters but keep numbers
-            word = re.sub(r"[^\w\s]", "", word)
-            normalized_words.append(word)
-
-        return " ".join(normalized_words)
+            result = " ".join(normalized_words)
+            logger.debug(f"Normalized '{name}' to '{result}'")
+            return result
+        except Exception as e:
+            logger.error(f"Error normalizing station name '{name}': {str(e)}")
+            return name
 
     def find_matches(self, query, n=3, cutoff=0.0):
         """
         Find the best matching station names for a given query.
-
-        Args:
-            query (str): The user's search query
-            n (int): Maximum number of matches to return
-            cutoff (float): Minimum similarity score (0-1) for matches
-
-        Returns:
-            list: List of tuples (official_name, similarity_score)
         """
-        normalized_query = self._normalize_name(query)
+        logger.info(f"Finding matches for query: '{query}'")
+        try:
+            normalized_query = self._normalize_name(query)
+            matches = get_close_matches(
+                normalized_query, list(self.normalized_names.keys()), n=n, cutoff=cutoff
+            )
 
-        # Get close matches among normalized names
-        matches = get_close_matches(
-            normalized_query, list(self.normalized_names.keys()), n=n, cutoff=cutoff
-        )
+            results = []
+            for match in matches:
+                official_name = self.normalized_names[match]
+                score = self._calculate_similarity(normalized_query, match)
+                results.append((official_name, score))
 
-        # Convert back to official names and include similarity scores
-        results = []
-        for match in matches:
-            official_name = self.normalized_names[match]
-            # Calculate similarity score (0-1)
-            score = self._calculate_similarity(normalized_query, match)
-            results.append((official_name, score))
+            results = sorted(results, key=lambda x: x[1], reverse=True)
 
-        return sorted(results, key=lambda x: x[1], reverse=True)
+            if results:
+                logger.info(f"Found {len(results)} matches for '{query}'")
+                logger.debug(
+                    f"Best match: '{results[0][0]}' with score {results[0][1]:.2f}"
+                )
+            else:
+                logger.warning(f"No matches found for query '{query}'")
+
+            return results
+
+        except Exception as e:
+            logger.error(f"Error finding matches for query '{query}': {str(e)}")
+            return []
 
     def _calculate_similarity(self, query, match):
-        """
-        Calculate a similarity score between query and match.
-        Uses a combination of exact substring matching and sequence similarity.
+        """Calculate similarity score between query and match."""
+        try:
+            if query in match:
+                return 1.0
 
-        Returns float between 0 and 1.
-        """
-        # Check if query is a substring of match
-        if query in match:
-            return 1.0
+            shorter = min(query, match, key=len)
+            longer = max(query, match, key=len)
 
-        # Calculate sequence similarity
-        shorter = min(query, match, key=len)
-        longer = max(query, match, key=len)
+            if len(longer) == 0:
+                return 0.0
 
-        if len(longer) == 0:
+            matches = sum(a == b for a, b in zip(shorter, longer))
+            return matches / len(longer)
+        except Exception as e:
+            logger.error(
+                f"Error calculating similarity between '{query}' and '{match}': {str(e)}"
+            )
             return 0.0
 
-        # Count matching characters
-        matches = sum(a == b for a, b in zip(shorter, longer))
-        return matches / len(longer)
 
-
-# Example usage
 if __name__ == "__main__":
-    # Sample station names
+    logger.info("Starting station matcher test")
     stations = [
         "Times Sq-42 St",
         "28 St",
@@ -911,9 +120,9 @@ if __name__ == "__main__":
     ]
 
     matcher = SubwayStationMatcher(stations)
+    query = input("Enter station to search: ")
+    logger.info(f"Testing with query: {query}")
 
-    query = input()
-    print(f"\nQuery: {query}")
     matches = matcher.find_matches(query)
     for station, score in matches:
         print(f"Match: {station} (score: {score:.2f})")
